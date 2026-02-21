@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dy60iaxprpkwn"
+path="res://.godot/imported/Convert o1.mp3-ec1c468b7c17910460e9e8ac0eba028d.mp3str"
+
+[deps]
+
+source_file="res://assets/Convert o1.mp3"
+dest_files=["res://.godot/imported/Convert o1.mp3-ec1c468b7c17910460e9e8ac0eba028d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

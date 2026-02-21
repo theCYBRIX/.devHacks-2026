@@ -37,6 +37,10 @@ func get_player_color(alias : String) -> Color:
 	return _player_colors.get(alias)
 
 
+func get_player_count() -> int:
+	return _player_ids.size()
+
+
 func _on_peer_message(id : int, message : String) -> void:
 	var inputs = JSON.parse_string(message)
 	if not inputs:

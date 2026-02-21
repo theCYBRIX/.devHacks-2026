@@ -80,7 +80,7 @@ func _process(delta: float) -> void:
 	if handbrake_pressed:
 		_traction = min_traction
 		_since_traction_loss = 0
-	elif not is_equal_approx(_traction, max_traction) and _speed > traction_recover_speed:
+	elif not is_equal_approx(_traction, max_traction):# and _speed > traction_recover_speed:
 		_since_traction_loss = min(_since_traction_loss + delta, traction_recover_time)
 		_traction = smoothstep(min_traction, max_traction, _since_traction_loss / traction_recover_time)
 	else:
@@ -93,11 +93,13 @@ func _process(delta: float) -> void:
 	else:
 		velocity = velocity.limit_length(max_reverse_speed) 
 	
+	var steering_amount : float 
 	if _speed > min_turning_velocity:
 		if _speed < turning_loss_velocity:
-			rotation += steering_input * max_steering * inverse_lerp(min_turning_velocity, turning_loss_velocity, _speed) * delta
+			steering_amount = steering_input * max_steering * inverse_lerp(min_turning_velocity, turning_loss_velocity, _speed) * delta
 		else:
-			rotation += steering_input * max_steering * delta
+			steering_amount = steering_input * max_steering * delta
+	rotation += steering_amount if _moving_forwards else -steering_amount
 	
 	#print(_speed)
 	
@@ -117,6 +119,13 @@ func _process(delta: float) -> void:
 				collider.set_cop()
 			elif not is_cop() and collider.is_cop():
 				self.set_cop()
+		else:
+			var normal := details.get_normal()
+			var normal_velocity := velocity.project(normal)
+			var normal_amount := normal_velocity.length()
+			var deflection := (velocity - normal_velocity).normalized() * (normal_amount * 0.2)
+			velocity = velocity - normal_velocity + deflection
+			_traction = min_traction
 
 
 func set_color(col : Color) -> void:
