@@ -10,7 +10,7 @@ const SOCKET_CLOSE_TIMEOUT_SEC : float = 10
 
 
 var _tcp_server : TCPServer
-var _peers : Dictionary[int, WebSocketPeer]
+var _peers : Dictionary[int, WebSocketPeer] = {}
 
 
 var _available_ids : Array[int] = []
@@ -37,32 +37,28 @@ func _process(delta: float) -> void:
 		
 		peer_connected.emit(peer_id)
 	
-	for peer : WebSocketPeer in _peers.values():
+	var closed_peers : Array[int] = []
+	for peer_id : int in _peers.keys():
+		var peer : WebSocketPeer = _peers[peer_id]
 		
 		peer.poll()
-		var ready_state := peer.get_ready_state()
 		
+		var ready_state := peer.get_ready_state()
 		match ready_state:
 			WebSocketPeer.STATE_OPEN:
 				while peer.get_available_packet_count() > 0:
 					var packet := peer.get_packet()
 					if peer.was_string_packet():
-						_handle_packet(packet.get_string_from_utf8())
+						peer_message.emit(peer_id, packet.get_string_from_utf8())
 					else:
 						print("ERROR: Peer %d sent invalid packet." % _peers.find_key(peer))
 			
 			WebSocketPeer.STATE_CLOSED:
-				pass
-
-
-func _handle_packet(data : String) -> void:
-	var as_dict = JSON.parse_string(data)
+				closed_peers.append(peer_id)
 	
-	if not as_dict:
-		print("ERROR: Failed to parse packet:\n\t" + data)
-		return
-	
-	#TODO: Implement API
+	for peer_id : int in closed_peers:
+		_peers.erase(peer_id)
+		peer_disconnected.emit(peer_id)
 
 
 func start() -> void:
@@ -102,6 +98,12 @@ func shutdown(code : int = 1001, reason : String = "Going Away") -> void:
 		print("Server shutdown...")
 	
 	if queued: queue_free()
+
+
+func send_message(peer_id : int, msg : String) -> void:
+	var peer : WebSocketPeer = _peers.get(peer_id)
+	if not peer: return
+	peer.send_text(msg)
 
 
 func get_peer_count() -> int:
