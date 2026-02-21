@@ -1,8 +1,8 @@
 const WebSocket = require("ws");
 
-const wss = new WebSocket.Server({ port: 8082 });
+const wss = new WebSocket.Server({ port: 3050 });
 
-console.log("WebSocket server running on ws://localhost:8082");
+console.log("WebSocket server running on ws://localhost:3050");
 
 wss.on("connection", (ws) => {
   console.log("Client connected");
@@ -16,9 +16,8 @@ wss.on("connection", (ws) => {
       console.error("Invalid JSON", message);
       return;
     }
-    ws.send(
-      JSON.stringify({ message: `Message received! Welcome: ${data.name}` }),
-    );
+    ws.send(JSON.stringify("Message received!"));
+    console.log(data);
   });
 
   ws.on("close", () => {

@@ -1,17 +1,23 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { Joystick } from "react-joystick-component";
 
 export default function Home() {
   const wsRef = useRef(null);
   const [name, setName] = useState("");
   const [gameStart, setGameStart] = useState(false);
 
+  const [joystickData, setJoystickData] = useState({
+    x: 0,
+    y: 0,
+  });
+
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8082");
+    const ws = new WebSocket("ws://localhost:3050");
     wsRef.current = ws;
 
     ws.onopen = () => {
-      console.log("connected to websocket");
+      console.log("Connected to websocket");
     };
 
     ws.onmessage = (event) => {
@@ -31,11 +37,33 @@ export default function Home() {
     }
   }
 
-  function handleClick(x, y) {
-    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify({ x, y }));
-    }
-  }
+  const handleMove = (event) => {
+    setInterval(() => {
+      setJoystickData({
+        x: event.x,
+        y: event.y,
+      });
+      console.log("Move event:", event);
+
+      if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+        wsRef.current.send(JSON.stringify({ joystickData }));
+      }
+    }, 10000);
+  };
+
+  const handleStop = () => {
+    handleReset();
+    console.log("Stop event");
+  };
+
+  const handleStart = () => {
+    console.log("Start event");
+  };
+
+  const handleReset = () => {
+    const initialPosition = { x: 0, y: 0 };
+    setJoystickData(initialPosition);
+  };
 
   return !gameStart ? (
     <form onSubmit={handleSubmit}>
@@ -64,31 +92,19 @@ export default function Home() {
       </main>
     </form>
   ) : (
-    <main className="flex m-14 items-center justify-center">
-      <button
-        onClick={() => handleClick(-1, 0)}
-        className="rounded bg-white border px-5 py-3"
-      >
-        ←
-      </button>
-      <button
-        onClick={() => handleClick(0, -1)}
-        className="rounded bg-white border px-6 py-3"
-      >
-        ↑
-      </button>
-      <button
-        onClick={() => handleClick(1, 0)}
-        className="rounded bg-white border px-5 py-3"
-      >
-        →
-      </button>
-      <button
-        onClick={() => handleClick(0, 1)}
-        className="rounded bg-white border px-6 py-3"
-      >
-        ↓
-      </button>
+    <main className="flex m-24 items-center justify-center gap-2">
+      <main className="flex m-24 items-center justify-center gap-8 lg:gap-24">
+        <Joystick
+          size={110}
+          sticky={true}
+          baseColor="white"
+          stickColor="black"
+          move={handleMove}
+          stop={handleStop}
+          start={handleStart}
+          pos={joystickData}
+        ></Joystick>
+      </main>
     </main>
   );
 }
