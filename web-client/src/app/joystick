@@ -1,0 +1,47 @@
+<div id="joystick">
+        <div id="knob"></div>
+    </div>
+    <script>
+    const joystick = document.getElementById("joystick");
+    const knob = document.getElementById("knob");
+    const radius = joystick.offsetWidth / 2;
+    const knobRadius = knob.offsetWidth / 2;
+
+    let dragging = false;
+
+    joystick.addEventListener("pointerdown", () =>{
+        dragging = true;
+    });
+
+    window.addEventListener("pointerup",() =>{
+        dragging = false;
+
+        knob.style.transform = `translate(0px,0px)`;
+    });
+
+    window.addEventListener("pointermove",(e) => {
+        if (!dragging) return;
+
+        const rect = joystick.getBoundingClientRect();
+        const centerX = rect.left + radius;
+        const centerY = rect.top + radius;
+
+        let dx = e.clientX - centerX;
+        let dy = e.clientY - centerY;
+
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance > radius){
+            const angle = Math.atan2(dy,dx);
+            dx = Math.cos(angle) * (radius - knobRadius);
+            dy = Math.sin(angle) * (radius - knobRadius);
+        }
+
+        knob.style.transform = `translate(${dx}px, ${dy}px)`;
+
+        const normalizedX = dx / (radius - knobRadius);
+        const normalizedY = dy / (radius - knobRadius);
+
+        console.log("X:", normalizedX.toFixed(2), "Y:", normalizedY.toFixed(2), "Dragging:", dragging);
+    })
+</script>
