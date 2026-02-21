@@ -31,6 +31,12 @@ export default function Home() {
     }
   }
 
+  function handleClick(x, y) {
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify({ x, y }));
+    }
+  }
+
   return !gameStart ? (
     <form onSubmit={handleSubmit}>
       <main className="flex flex-col m-14 items-center justify-center mt-28 space-y-2">
@@ -58,6 +64,31 @@ export default function Home() {
       </main>
     </form>
   ) : (
-    <main></main>
+    <main className="flex m-14 items-center justify-center">
+      <button
+        onClick={() => handleClick(-1, 0)}
+        className="rounded bg-white border px-5 py-3"
+      >
+        ←
+      </button>
+      <button
+        onClick={() => handleClick(0, -1)}
+        className="rounded bg-white border px-6 py-3"
+      >
+        ↑
+      </button>
+      <button
+        onClick={() => handleClick(1, 0)}
+        className="rounded bg-white border px-5 py-3"
+      >
+        →
+      </button>
+      <button
+        onClick={() => handleClick(0, 1)}
+        className="rounded bg-white border px-6 py-3"
+      >
+        ↓
+      </button>
+    </main>
   );
 }
