@@ -63,10 +63,10 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	
-	if enable_local_player and instance_id == 0:
-		acceleratior_input = Input.get_axis("ui_down", "ui_up")
-		steering_input = Input.get_axis("ui_left", "ui_right")
-		handbrake_pressed = Input.is_action_pressed("handbrake")
+	#if enable_local_player and instance_id == 0:
+		#acceleratior_input = Input.get_axis("ui_down", "ui_up")
+		#steering_input = Input.get_axis("ui_left", "ui_right")
+		#handbrake_pressed = Input.is_action_pressed("handbrake")
 	
 	var current_forwards := FORWARDS.rotated(rotation)
 	

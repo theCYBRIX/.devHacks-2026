@@ -38,7 +38,7 @@ func _ready() -> void:
 func get_player_color(alias : String) -> Color:
 	return _player_colors.get(alias)
 
-func get_player_number(alias : String) -> Marker2D:
+func get_player_number(alias : String) -> int:
 	return _player_numbers.get(alias)
 
 
@@ -48,12 +48,13 @@ func get_player_count() -> int:
 
 func _on_peer_message(id : int, message : String) -> void:
 	var inputs = JSON.parse_string(message)
+	print("message received: " +  message)
 	if not inputs:
 		print("ERROR: Failed to parse packet from peer %d:\n\t%s" % [id, message])
 		return
-	var alias = _player_aliases[id]
+	var alias = _player_aliases.get(id)
 	if alias:
-		player_input.emit(alias, inputs)
+		player_input.emit(alias, inputs.get("joystickData", {}))
 	elif inputs.has("name"):
 		_handle_alias_request(id, inputs)
 

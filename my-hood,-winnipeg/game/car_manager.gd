@@ -31,13 +31,15 @@ func _on_player_input(alias : String, input : Dictionary) -> void:
 	var car : Car = _player_cars[alias]
 	if not car: return
 	var prev_acc_inpt = car.acceleratior_input
-	car.acceleratior_input = input.get("y", 0)
-	car.steering_input = input.get("x", 0)
-	car.handbrake_pressed == prev_acc_inpt > 0 and car.acceleratior_input < 0
+	car.acceleratior_input = clampf(input.get("y", 0.0), -1, 1)
+	car.steering_input = clampf(input.get("x", 0.0), -1, 1)
+	car.handbrake_pressed = (prev_acc_inpt > 0 and car.acceleratior_input < 0)
 
 
 func _on_player_connected(alias : String, _id : int) -> void:
 	var car : Car = CAR.instantiate()
+	car.set_physics_process(false)
+	car.set_process(false)
 	car.player_alias = alias
 	car.player_color = PlayerManager.get_player_color(alias)
 	var player_number = PlayerManager.get_player_number(alias)
@@ -50,6 +52,12 @@ func _on_player_connected(alias : String, _id : int) -> void:
 	
 	car.position = spawn.position
 	car.rotation = spawn.rotation
+	car.velocity = Vector2.ZERO
+	#car.set_process(false)
+	car.set_physics_process(true)
+	car.set_process(true)
+	
+	print(alias + ": " + str(_id) + " -> spawned")
 
 
 func _on_player_disconnected(alias : String, _id : int) -> void:
