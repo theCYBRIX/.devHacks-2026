@@ -1,17 +1,21 @@
 extends Node
 
 @export var car_parent : Node
-@export var spawn_location : Marker2D
+@export var map : Map
+
 
 const CAR = preload("res://game/car.tscn")
 
 var _player_cars : Dictionary[String, Car] = {}
+var _spawn_locations : Array[Marker2D]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	PlayerManager.player_connected.connect(_on_player_connected)
 	PlayerManager.player_disconnected.connect(_on_player_disconnected)
 	PlayerManager.player_input.connect(_on_player_input)
+	
+	_spawn_locations = map.get_spawn_points()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -39,7 +43,8 @@ func _on_player_connected(alias : String, _id : int) -> void:
 	car_parent.add_child(car)
 	car.owner = car_parent
 	
-	# TODO: Figure out spawning system
+	var spawn := _spawn_locations[]
+	
 	car.position = spawn_location.position
 	car.rotation = spawn_location.rotation
 

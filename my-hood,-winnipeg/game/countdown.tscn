@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cv6sww34pen78"]
+[gd_scene load_steps=6 format=3 uid="uid://cv6sww34pen78"]
 
 [ext_resource type="Script" uid="uid://c80r48br3pund" path="res://game/countdown.gd" id="1_r1c6s"]
+[ext_resource type="AudioStream" uid="uid://dv1yxplebqd0" path="res://assets/countdown.wav" id="2_i533s"]
 
 [sub_resource type="Animation" id="Animation_tctxm"]
 length = 0.001
@@ -39,6 +40,20 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Countdown")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"stop"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_vl7qg"]
@@ -80,6 +95,20 @@ tracks/2/keys = {
 "update": 1,
 "values": [true, false]
 }
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Countdown")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yxwx8"]
 _data = {
@@ -112,3 +141,6 @@ vertical_alignment = 1
 libraries = {
 &"": SubResource("AnimationLibrary_yxwx8")
 }
+
+[node name="Countdown" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_i533s")

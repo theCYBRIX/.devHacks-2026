@@ -27,6 +27,8 @@ var _player_inputs : Dictionary[String, Dictionary] = {}
 var _player_colors : Dictionary[String, Color] = {}
 var _timeout_queue : Array[String] = []
 var _available_colors : Array[Color] = PLAYER_COLORS.duplicate()
+var _player_numbers : Dictionary[String, int] = {}
+var _available_numbers : Array[int] = [1, 2, 3, 4, 5, 6, 7, 8]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -62,6 +64,7 @@ func _on_player_registered(id : int, alias : String) -> void:
 	else:
 		var player_col : Color = _available_colors.pop_back() if not _player_colors.is_empty() else get_random_color()
 		_player_colors[alias] = player_col
+		_player_numbers[alias] = _available_numbers.pop_front()
 		player_connected.emit(alias, id)
 
 
@@ -75,6 +78,10 @@ func _on_peer_disconnected(id : int) -> void:
 	_player_ids.erase(alias)
 	var player_col : Color = _player_colors[alias]
 	_player_colors.erase(alias)
+	var player_number = _player_numbers[alias]
+	_player_numbers.erase(alias)
+	_available_numbers.append(player_number)
+	_available_numbers.sort()
 	if PLAYER_COLORS.has(player_col): _available_colors.append(player_col)
 	player_disconnected.emit(alias, id)
 

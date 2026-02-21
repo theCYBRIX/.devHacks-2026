@@ -1,3 +1,4 @@
+class_name Map
 extends Node2D
 
 @onready var spawn_points: Node2D = $SpawnPoints

@@ -1,3 +1,4 @@
+class_name PlayerEntry
 extends Control
 
 

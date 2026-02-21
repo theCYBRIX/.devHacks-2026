@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c3yqfawabcct6"
+path="res://.godot/imported/Engine loop n_1. .mp3-21e7b3d331a027c1e91038f7b75e65e7.mp3str"
+
+[deps]
+
+source_file="res://assets/Engine loop n_1. .mp3"
+dest_files=["res://.godot/imported/Engine loop n_1. .mp3-21e7b3d331a027c1e91038f7b75e65e7.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

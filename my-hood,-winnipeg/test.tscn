@@ -9,7 +9,9 @@
 
 [node name="Car" parent="." instance=ExtResource("1_37kl0")]
 position = Vector2(928, 330)
+scale = Vector2(0.75, 0.75)
 _is_cop = true
 
 [node name="Car2" parent="." instance=ExtResource("1_37kl0")]
 position = Vector2(225, 342)
+scale = Vector2(0.75, 0.75)

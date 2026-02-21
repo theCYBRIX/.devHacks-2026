@@ -1,10 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://2bjklh70l1ic"]
+[gd_scene load_steps=13 format=3 uid="uid://2bjklh70l1ic"]
 
 [ext_resource type="Script" uid="uid://b4a5wf7yhcee3" path="res://game/car.gd" id="1_ij4eu"]
 [ext_resource type="Texture2D" uid="uid://dwljqec72tpx8" path="res://assets/street_car.png" id="2_ij4eu"]
+[ext_resource type="AudioStream" uid="uid://bn6rwjyvp72fv" path="res://assets/police siren varies .wav" id="3_dp11s"]
+[ext_resource type="AudioStream" uid="uid://gjfov838inva" path="res://assets/Engine1.wav" id="4_2yqmx"]
+[ext_resource type="AudioStream" uid="uid://dl6il0aomnwiw" path="res://assets/Engine2.wav" id="5_4xjf4"]
+[ext_resource type="AudioStream" uid="uid://y4fl8n1as38m" path="res://assets/Engine3.wav" id="6_ox7hs"]
+[ext_resource type="AudioStream" uid="uid://cgigrpafulio7" path="res://assets/engine loop .wav" id="7_3crnn"]
+[ext_resource type="AudioStream" uid="uid://7pcppjkmh71v" path="res://assets/Car crash- walls .wav" id="8_4xjf4"]
+[ext_resource type="AudioStream" uid="uid://cuhrfwlhvlga8" path="res://assets/hit noise 1.mp3" id="9_ox7hs"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mklhl"]
 height = 40.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_2yqmx"]
+random_pitch = 1.7
+streams_count = 1
+stream_0/stream = ExtResource("8_4xjf4")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_4xjf4"]
+streams_count = 1
+stream_0/stream = ExtResource("9_ox7hs")
 
 [node name="Car" type="CharacterBody2D"]
 motion_mode = 1
@@ -15,3 +31,25 @@ texture = ExtResource("2_ij4eu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_mklhl")
+
+[node name="PoliceSiren" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_dp11s")
+
+[node name="EngineSpoolUp" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_2yqmx")
+
+[node name="EngineHighRev" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_4xjf4")
+
+[node name="EngineSpoolDown" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_ox7hs")
+
+[node name="EngineIdle" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_3crnn")
+
+[node name="CarCrashed" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_2yqmx")
+
+[node name="CarTagged" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_4xjf4")
+max_polyphony = 4

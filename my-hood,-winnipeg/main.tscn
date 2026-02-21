@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://ckpuqcsc0cgi6"]
+[gd_scene load_steps=6 format=3 uid="uid://ckpuqcsc0cgi6"]
 
 [ext_resource type="Script" uid="uid://0odqd3qna2nc" path="res://game/car_manager.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://t4185fiy3751" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cl432sh8dd1gy" path="res://game/map.tscn" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cv6sww34pen78" path="res://game/countdown.tscn" id="4_1bvp3"]
+[ext_resource type="AudioStream" uid="uid://vi8xb3qtmybr" path="res://assets/background.mp3" id="5_lquwl"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_h2yge")
@@ -12,6 +13,13 @@ script = ExtResource("1_h2yge")
 script = ExtResource("1_0xm2m")
 car_parent = NodePath("../Cars")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -81.0
+offset_top = -87.0
+offset_right = 1238.0
+offset_bottom = 733.0
+color = Color(0.309804, 0.52549, 0.317647, 1)
+
 [node name="Map" parent="." instance=ExtResource("2_h2yge")]
 
 [node name="Cars" type="Node2D" parent="." groups=["Cars"]]
@@ -19,3 +27,8 @@ car_parent = NodePath("../Cars")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Countdown" parent="CanvasLayer" instance=ExtResource("4_1bvp3")]
+
+[node name="Background" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_lquwl")
+
+[connection signal="finished" from="Background" to="." method="_on_background_finished"]

@@ -21,6 +21,11 @@ extends CharacterBody2D
 @export var player_color : Color = Color.WHITE : set = set_color
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var police_siren: AudioStreamPlayer = $PoliceSiren
+@onready var engine_idle: AudioStreamPlayer = $EngineIdle
+@onready var engine_high_rev: AudioStreamPlayer = $EngineHighRev
+@onready var car_crashed: AudioStreamPlayer = $CarCrashed
+@onready var car_tagged: AudioStreamPlayer = $CarTagged
 
 const COP_CAR = preload("res://assets/cop_car.png")
 const STREET_CAR = preload("res://assets/street_car.png")
@@ -40,7 +45,7 @@ var _moving_forwards : bool = true
 var acceleratior_input : float = 0
 var steering_input : float = 0
 var handbrake_pressed : float = 0
-
+var siren_enabled : bool = false
 
 var instance_id : int
 static var instance_counter : int = 0
@@ -91,7 +96,17 @@ func _process(delta: float) -> void:
 	if _moving_forwards:
 		velocity = velocity.limit_length(max_forward_speed)
 	else:
-		velocity = velocity.limit_length(max_reverse_speed) 
+		velocity = velocity.limit_length(max_reverse_speed)
+	
+	
+	if _speed > 25:
+		if not engine_high_rev.playing:
+			engine_high_rev.play()
+			engine_idle.stop()
+	else:
+		if not engine_idle.playing:
+			engine_idle.play()
+			engine_high_rev.stop()
 	
 	var steering_amount : float 
 	if _speed > min_turning_velocity:
@@ -107,18 +122,24 @@ func _process(delta: float) -> void:
 	
 	if not collided: return
 	
-	#TODO: play crash sound
+	var collision_count := get_slide_collision_count()
+	var tagged_player : bool = false
 	
-	for i in range(get_slide_collision_count()):
+	
+	for i in range(collision_count):
 		var details = get_slide_collision(i)
 		var collider = details.get_collider()
 		if collider is Car:
 			velocity *= 0.5
 			collider.velocity += velocity
+			collider._speed = collider.velocity.length()
 			if is_cop() and not collider.is_cop():
 				collider.set_cop()
 			elif not is_cop() and collider.is_cop():
 				self.set_cop()
+			else:
+				continue
+			tagged_player = true
 		else:
 			var normal := details.get_normal()
 			var normal_velocity := velocity.project(normal)
@@ -126,6 +147,13 @@ func _process(delta: float) -> void:
 			var deflection := (velocity - normal_velocity).normalized() * (normal_amount * 0.2)
 			velocity = velocity - normal_velocity + deflection
 			_traction = min_traction
+	
+	if tagged_player:
+		car_tagged.play()
+	elif _speed > 50 and not car_crashed.playing:
+		car_crashed.play()
+	
+	_speed = velocity.length()
 
 
 func set_color(col : Color) -> void:
@@ -137,10 +165,15 @@ func set_color(col : Color) -> void:
 func set_cop(enabled := true) -> void:
 	_is_cop = enabled
 	if enabled:
-		if is_node_ready(): sprite_2d.texture = COP_CAR
 		modulate = Color.WHITE
+		if is_node_ready(): 
+			sprite_2d.texture = COP_CAR
+			if siren_enabled:
+				police_siren.play()
 	else:
-		if is_node_ready(): sprite_2d.texture = STREET_CAR
+		if is_node_ready():
+			sprite_2d.texture = STREET_CAR
+			police_siren.stop()
 		modulate = player_color
 
 
