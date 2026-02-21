@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgg8p5yetahvu"]
+
+[ext_resource type="Script" uid="uid://br4pnp73ywi4x" path="res://lobby/player_entry.gd" id="1_or3bn"]
+
+[node name="PlayerEntry" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_or3bn")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(64, 40)
+layout_mode = 2
+color = Color(1, 0.286275, 1, 1)
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+text = "Temp"

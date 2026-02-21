@@ -19,6 +19,10 @@ func _process(delta: float) -> void:
 	pass
 
 
+func set_block_inputs(enabled : bool) -> void:
+	get_tree().call_group("Cars", "set_process", enabled)
+
+
 func _on_player_input(alias : String, input : Dictionary) -> void:
 	var car : Car = _player_cars[alias]
 	if not car: return
