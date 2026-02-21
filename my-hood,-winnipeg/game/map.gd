@@ -14,8 +14,10 @@ func _process(delta: float) -> void:
 
 
 func get_spawn_points() -> Array[Marker2D]:
+	if not is_node_ready():
+		await ready
 	var points : Array[Marker2D] = []
-	for node in spawn_points.get_childred():
+	for node in spawn_points.get_children():
 		if node is Marker2D:
 			points.append(node)
 	return points

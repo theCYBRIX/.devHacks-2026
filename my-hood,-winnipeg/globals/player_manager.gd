@@ -38,6 +38,9 @@ func _ready() -> void:
 func get_player_color(alias : String) -> Color:
 	return _player_colors.get(alias)
 
+func get_player_number(alias : String) -> Marker2D:
+	return _player_numbers.get(alias)
+
 
 func get_player_count() -> int:
 	return _player_ids.size()

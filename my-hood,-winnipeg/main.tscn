@@ -9,9 +9,10 @@
 [node name="Main" type="Node"]
 script = ExtResource("1_h2yge")
 
-[node name="CarManager" type="Node" parent="." node_paths=PackedStringArray("car_parent")]
+[node name="CarManager" type="Node" parent="." node_paths=PackedStringArray("car_parent", "map")]
 script = ExtResource("1_0xm2m")
 car_parent = NodePath("../Cars")
+map = NodePath("../Map")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = -81.0

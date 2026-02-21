@@ -25,6 +25,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	while _tcp_server.is_connection_available():
+		print("Tried to connect")
 		var peer = WebSocketPeer.new()
 		peer.accept_stream(_tcp_server.take_connection())
 		var peer_id : int
@@ -35,6 +36,7 @@ func _process(delta: float) -> void:
 		else:
 			peer_id = _available_ids.pop_back()
 		
+		_peers[peer_id] = peer
 		peer_connected.emit(peer_id)
 	
 	var closed_peers : Array[int] = []
