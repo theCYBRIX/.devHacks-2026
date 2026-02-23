@@ -13,6 +13,9 @@ export default function Home() {
     y: 0,
   });
 
+  var blockInput = false
+  var blockInputInterval = null
+
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:3050");
     wsRef.current = ws;
@@ -39,18 +42,27 @@ export default function Home() {
   }
 
   const handleMove = (event) => {
-    setInterval(() => {
-      setJoystickData({
-        x: event.x,
-        y: event.y,
-      });
-      console.log("Move event:", event);
+    setJoystickData({
+      x: event.x,
+      y: event.y,
+    });
+    console.log("Move event:", event);
 
-      if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      if (!blockInput) {
         wsRef.current.send(JSON.stringify({ joystickData }));
+        blockInput = true
+        blockInputInterval = setInterval(unblockInput)
       }
-    }, 10000);
+    }
   };
+
+  const unblockInput = () => {
+    blockInput = false
+    if (blockInputInterval) {
+      clearInterval(blockInputInterval)
+    }
+  }
 
   const handleStop = () => {
     handleReset();

@@ -48,7 +48,7 @@ func get_player_count() -> int:
 
 func _on_peer_message(id : int, message : String) -> void:
 	var inputs = JSON.parse_string(message)
-	print("message received: " +  message)
+	#print("message received: " +  message)
 	if not inputs:
 		print("ERROR: Failed to parse packet from peer %d:\n\t%s" % [id, message])
 		return
@@ -69,7 +69,6 @@ func _on_player_registered(id : int, alias : String) -> void:
 		var player_col : Color = _available_colors.pop_back() if not _player_colors.is_empty() else get_random_color()
 		_player_colors[alias] = player_col
 		_player_numbers[alias] = _available_numbers.pop_front()
-		player_connected.emit(alias, id)
 
 
 func _on_peer_disconnected(id : int) -> void:

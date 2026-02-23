@@ -28,6 +28,7 @@ func set_block_inputs(enabled : bool) -> void:
 
 
 func _on_player_input(alias : String, input : Dictionary) -> void:
+	#print(alias + ": " + JSON.stringify(input))
 	var car : Car = _player_cars[alias]
 	if not car: return
 	var prev_acc_inpt = car.acceleratior_input
