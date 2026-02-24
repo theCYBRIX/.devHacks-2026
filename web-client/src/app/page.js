@@ -17,7 +17,7 @@ export default function Home() {
   var blockInputInterval = null
 
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:3050");
+    const ws = new WebSocket("ws://10.0.0.70:3050");
     wsRef.current = ws;
 
     ws.onopen = () => {
@@ -47,14 +47,17 @@ export default function Home() {
       y: event.y,
     });
     console.log("Move event:", event);
+    if (!blockInput) {
+      sendInputEvent({ joystickData })
+    }
+  };
 
+  const sendInputEvent = (event) => {
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      if (!blockInput) {
-        wsRef.current.send(JSON.stringify({ joystickData }));
+        wsRef.current.send(JSON.stringify(event));
         blockInput = true
         blockInputInterval = setInterval(unblockInput)
       }
-    }
   };
 
   const unblockInput = () => {
@@ -62,7 +65,7 @@ export default function Home() {
     if (blockInputInterval) {
       clearInterval(blockInputInterval)
     }
-  }
+  };
 
   const handleStop = () => {
     handleReset();
@@ -74,8 +77,14 @@ export default function Home() {
   };
 
   const handleReset = () => {
-    const initialPosition = { x: 0, y: 0 };
-    setJoystickData(initialPosition);
+    const initialPosition = {
+      x: 0,
+      y: 0,
+    }
+    setJoystickData(initialPosition)
+    sendInputEvent({
+      "joystickData" : initialPosition
+    });
   };
 
   return !gameStart ? (
@@ -109,8 +118,8 @@ export default function Home() {
       <main className="flex m-24 items-center justify-center gap-8 lg:gap-24">
         <Joystick
           size={110}
-          sticky={true}
-          baseColor="white"
+          sticky={false}
+          baseColor="grey"
           stickColor="black"
           move={handleMove}
           stop={handleStop}
