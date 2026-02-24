@@ -33,6 +33,7 @@ var _available_numbers : Array[int] = [1, 2, 3, 4, 5, 6, 7, 8]
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	WebSocketServer.peer_message.connect(_on_peer_message)
+	WebSocketServer.peer_disconnected.connect(_on_peer_disconnected)
 
 
 func get_player_color(alias : String) -> Color:
@@ -52,11 +53,13 @@ func _on_peer_message(id : int, message : String) -> void:
 	if not inputs:
 		print("ERROR: Failed to parse packet from peer %d:\n\t%s" % [id, message])
 		return
-	var alias = _player_aliases.get(id)
-	if alias:
-		player_input.emit(alias, inputs.get("joystickData", {}))
-	elif inputs.has("name"):
+	
+	if inputs.has("name"):
 		_handle_alias_request(id, inputs)
+	else:
+		var alias = _player_aliases.get(id)
+		if not alias: return
+		player_input.emit(alias, inputs.get("joystickData", {}))
 
 
 func _on_player_registered(id : int, alias : String) -> void:
@@ -69,15 +72,19 @@ func _on_player_registered(id : int, alias : String) -> void:
 		var player_col : Color = _available_colors.pop_back() if not _player_colors.is_empty() else get_random_color()
 		_player_colors[alias] = player_col
 		_player_numbers[alias] = _available_numbers.pop_front()
+		player_connected.emit(alias, id)
 
 
 func _on_peer_disconnected(id : int) -> void:
+	if not _player_aliases.has(id): return
 	var alias : String = _player_aliases.get(id)
 	_player_aliases.erase(id)
-	if not alias: return
 	_timeout_queue.append(alias)
+	print("Player %s lost connection." % alias)
 	await get_tree().create_timer(PLAYER_TIMEOUT_SEC).timeout
 	if not _timeout_queue.has(alias): return
+	_timeout_queue.erase(alias)
+	print("Player %s timed out." % alias)
 	_player_ids.erase(alias)
 	var player_col : Color = _player_colors[alias]
 	_player_colors.erase(alias)
@@ -96,7 +103,7 @@ func get_random_color() -> Color:
 func _handle_alias_request(peer_id : int, data : Dictionary) -> void:
 	var alias = data.name
 	var response : String
-	if _player_ids.has(alias):
+	if _player_ids.has(alias) and not _timeout_queue.has(alias):
 		response = JSON.stringify({ "accepted": false })
 		return
 	
@@ -106,4 +113,3 @@ func _handle_alias_request(peer_id : int, data : Dictionary) -> void:
 		"color": get_player_color(alias).to_html(false)
 	})
 	WebSocketServer.send_message(peer_id, response)
-	player_connected.emit(alias, peer_id)

@@ -3,7 +3,6 @@ extends Node
 signal peer_connected(peer_id : int)
 signal peer_message(peer_id : int, msg : String)
 signal peer_disconnected(peer_id : int)
-signal player_registered(peer_id : int, alias : String)
 
 const SERVER_PORT := 3050
 const SOCKET_CLOSE_TIMEOUT_SEC : float = 10
@@ -25,7 +24,6 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	while _tcp_server.is_connection_available():
-		print("Tried to connect")
 		var peer = WebSocketPeer.new()
 		peer.accept_stream(_tcp_server.take_connection())
 		var peer_id : int
@@ -60,6 +58,7 @@ func _process(delta: float) -> void:
 	
 	for peer_id : int in closed_peers:
 		_peers.erase(peer_id)
+		_available_ids.append(peer_id)
 		peer_disconnected.emit(peer_id)
 
 
