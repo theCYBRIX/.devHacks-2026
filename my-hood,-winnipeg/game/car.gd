@@ -1,12 +1,12 @@
 class_name Car
 extends CharacterBody2D
 
-@export var max_forward_speed : float = 1000
-@export var max_reverse_speed : float = 300
-@export var max_acceleration  : float = 1000
-@export var max_deceleration  : float = 600
+@export var max_forward_speed : float = 500
+@export var max_reverse_speed : float = 250
+@export var max_acceleration  : float = 500
+@export var max_deceleration  : float = 350
 @export var max_steering : float = deg_to_rad(180)
-@export var min_turning_velocity : float = 25.0
+@export var min_turning_velocity : float = 15.0
 @export var turning_loss_velocity : float = 125.0
 
 @export var min_traction : float = 0.0
@@ -131,8 +131,10 @@ func _process(delta: float) -> void:
 		var collider = details.get_collider()
 		if collider is Car:
 			velocity *= 0.5
+			_traction = min_traction
 			collider.velocity += velocity
 			collider._speed = collider.velocity.length()
+			collider._traction = min_traction
 			if is_cop() and not collider.is_cop():
 				collider.set_cop()
 			elif not is_cop() and collider.is_cop():

@@ -24,6 +24,10 @@ PlayerManager="*res://globals/player_manager.gd"
 
 window/stretch/mode="canvas_items"
 
+[dotnet]
+
+project/assembly_name="My Hood- Winnipeg"
+
 [global_group]
 
 Cars="All car instances"

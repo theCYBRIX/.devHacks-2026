@@ -23,6 +23,7 @@ streams_count = 1
 stream_0/stream = ExtResource("9_ox7hs")
 
 [node name="Car" type="CharacterBody2D"]
+scale = Vector2(0.75, 0.75)
 motion_mode = 1
 script = ExtResource("1_ij4eu")
 
@@ -40,15 +41,18 @@ stream = ExtResource("4_2yqmx")
 
 [node name="EngineHighRev" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_4xjf4")
+volume_db = -10.0
 
 [node name="EngineSpoolDown" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_ox7hs")
 
 [node name="EngineIdle" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_3crnn")
+volume_db = -10.0
 
 [node name="CarCrashed" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_2yqmx")
+volume_db = -10.0
 
 [node name="CarTagged" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_4xjf4")
