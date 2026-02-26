@@ -1,6 +1,8 @@
 class_name Car
 extends CharacterBody2D
 
+@export var local_controlled : bool = false
+
 @export var max_forward_speed : float = 500
 @export var max_reverse_speed : float = 250
 @export var max_acceleration  : float = 500
@@ -63,10 +65,10 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	
-	#if enable_local_player and instance_id == 0:
-		#acceleratior_input = Input.get_axis("ui_down", "ui_up")
-		#steering_input = Input.get_axis("ui_left", "ui_right")
-		#handbrake_pressed = Input.is_action_pressed("handbrake")
+	if local_controlled:
+		acceleratior_input = Input.get_axis("decelerate", "accelerate")
+		steering_input = Input.get_axis("turn_left", "turn_right")
+		handbrake_pressed = Input.is_action_pressed("handbrake")
 	
 	var current_forwards := FORWARDS.rotated(rotation)
 	
@@ -99,14 +101,14 @@ func _process(delta: float) -> void:
 		velocity = velocity.limit_length(max_reverse_speed)
 	
 	
-	if _speed > 25:
-		if not engine_high_rev.playing:
-			engine_high_rev.play()
-			engine_idle.stop()
-	else:
-		if not engine_idle.playing:
-			engine_idle.play()
-			engine_high_rev.stop()
+	#if _speed > 25:
+		#if not engine_high_rev.playing:
+			#engine_high_rev.play()
+			#engine_idle.stop()
+	#else:
+		#if not engine_idle.playing:
+			#engine_idle.play()
+			#engine_high_rev.stop()
 	
 	var steering_amount : float 
 	if _speed > min_turning_velocity:

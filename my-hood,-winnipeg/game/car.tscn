@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://2bjklh70l1ic"]
+[gd_scene load_steps=14 format=3 uid="uid://2bjklh70l1ic"]
 
 [ext_resource type="Script" uid="uid://b4a5wf7yhcee3" path="res://game/car.gd" id="1_ij4eu"]
 [ext_resource type="Texture2D" uid="uid://dwljqec72tpx8" path="res://assets/street_car.png" id="2_ij4eu"]
@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://cgigrpafulio7" path="res://assets/engine loop .wav" id="7_3crnn"]
 [ext_resource type="AudioStream" uid="uid://7pcppjkmh71v" path="res://assets/Car crash- walls .wav" id="8_4xjf4"]
 [ext_resource type="AudioStream" uid="uid://cuhrfwlhvlga8" path="res://assets/hit noise 1.mp3" id="9_ox7hs"]
+[ext_resource type="PackedScene" uid="uid://bwg1o7qahdexw" path="res://game/engine_sound_manager.tscn" id="10_ox7hs"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mklhl"]
 height = 40.0
@@ -57,3 +58,6 @@ volume_db = -10.0
 [node name="CarTagged" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_4xjf4")
 max_polyphony = 4
+
+[node name="EngineSoundManager" parent="." node_paths=PackedStringArray("car") instance=ExtResource("10_ox7hs")]
+car = NodePath("..")

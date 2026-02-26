@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://hyawfdyld8mi"]
+
+[ext_resource type="PackedScene" uid="uid://cl432sh8dd1gy" path="res://game/map.tscn" id="1_8a8pi"]
+[ext_resource type="PackedScene" uid="uid://2bjklh70l1ic" path="res://game/car.tscn" id="2_65205"]
+
+[node name="Test" type="Node2D"]
+
+[node name="Map" parent="." instance=ExtResource("1_8a8pi")]
+
+[node name="Car" parent="." instance=ExtResource("2_65205")]
+position = Vector2(928, 330)
+local_controlled = true
+_is_cop = true
+
+[node name="Car2" parent="." instance=ExtResource("2_65205")]
+position = Vector2(225, 342)
