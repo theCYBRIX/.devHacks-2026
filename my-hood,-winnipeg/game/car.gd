@@ -24,9 +24,8 @@ extends CharacterBody2D
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var police_siren: AudioStreamPlayer = $PoliceSiren
-@onready var engine_idle: AudioStreamPlayer = $EngineIdle
-@onready var engine_high_rev: AudioStreamPlayer = $EngineHighRev
 @onready var car_crashed: AudioStreamPlayer = $CarCrashed
+@onready var wall_crashed: AudioStreamPlayer = $WallCrashed
 @onready var car_tagged: AudioStreamPlayer = $CarTagged
 
 const COP_CAR = preload("res://assets/cop_car.png")
@@ -42,6 +41,8 @@ var _speed : float = 0.0
 var _traction : float = 0.8
 var _since_traction_loss : float = 0
 var _moving_forwards : bool = true
+var _crashing : bool = false
+var _just_crashed : bool = false
 
 
 var acceleratior_input : float = 0
@@ -52,18 +53,14 @@ var siren_enabled : bool = false
 var instance_id : int
 static var instance_counter : int = 0
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	instance_id = instance_counter
 	instance_counter += 1
 	
 	sprite_2d.texture = COP_CAR if is_cop() else STREET_CAR
-	
-	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	
 	if local_controlled:
 		acceleratior_input = Input.get_axis("decelerate", "accelerate")
@@ -119,19 +116,24 @@ func _process(delta: float) -> void:
 	rotation += steering_amount if _moving_forwards else -steering_amount
 	
 	#print(_speed)
+	var was_crashing := _crashing
+	_crashing = move_and_slide()
 	
-	var collided = move_and_slide()
+	_just_crashed = _crashing and not was_crashing
 	
-	if not collided: return
+	if not _crashing: return
 	
 	var collision_count := get_slide_collision_count()
 	var tagged_player : bool = false
+	var crashed_car : bool = false
+	var crashed_wall : bool = false
 	
 	
 	for i in range(collision_count):
 		var details = get_slide_collision(i)
 		var collider = details.get_collider()
 		if collider is Car:
+			crashed_car = true
 			velocity *= 0.5
 			_traction = min_traction
 			collider.velocity += velocity
@@ -145,6 +147,7 @@ func _process(delta: float) -> void:
 				continue
 			tagged_player = true
 		else:
+			crashed_wall = true
 			var normal := details.get_normal()
 			var normal_velocity := velocity.project(normal)
 			var normal_amount := normal_velocity.length()
@@ -154,8 +157,10 @@ func _process(delta: float) -> void:
 	
 	if tagged_player:
 		car_tagged.play()
-	elif _speed > 50 and not car_crashed.playing:
+	if _just_crashed and _speed > 50 and crashed_car:
 		car_crashed.play()
+	if _just_crashed and _speed > 50 and not wall_crashed.playing:
+		wall_crashed.play()
 	
 	_speed = velocity.length()
 

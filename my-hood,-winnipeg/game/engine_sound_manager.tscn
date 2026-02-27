@@ -4,62 +4,6 @@
 [ext_resource type="AudioStream" uid="uid://cgigrpafulio7" path="res://assets/engine loop .wav" id="2_edyw3"]
 [ext_resource type="AudioStream" uid="uid://dl6il0aomnwiw" path="res://assets/Engine2.wav" id="3_37ma4"]
 
-[sub_resource type="Animation" id="Animation_7cvu6"]
-resource_name = "fade_to_idle"
-length = 0.25
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("IdleAudioPlayer:volume_db")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(-0.00833333, 0.133333),
-"transitions": PackedFloat32Array(0.5, 0.5),
-"update": 0,
-"values": [-40.0, -8.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("HighAudioPlayer:volume_db")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(-0.00833333, 0.25),
-"transitions": PackedFloat32Array(2, 2),
-"update": 0,
-"values": [0.0, -40.0]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("IdleAudioPlayer")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [0.0],
-"method": &"play"
-}]
-}
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("HighAudioPlayer")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.25),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"stop"
-}]
-}
-
 [sub_resource type="Animation" id="Animation_urq5s"]
 resource_name = "RESET"
 length = 0.001
@@ -144,6 +88,62 @@ tracks/3/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_7cvu6"]
+resource_name = "fade_to_idle"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("IdleAudioPlayer:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.00833333, 0.133333),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [-40.0, -8.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HighAudioPlayer:volume_db")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(-0.00833333, 0.25),
+"transitions": PackedFloat32Array(2, 2),
+"update": 0,
+"values": [0.0, -40.0]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("IdleAudioPlayer")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HighAudioPlayer")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.25),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"stop"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xc6pg"]
 _data = {
 &"RESET": SubResource("Animation_urq5s"),
@@ -153,8 +153,6 @@ _data = {
 
 [node name="EngineSoundManager" type="Node"]
 script = ExtResource("1_kv4ve")
-idle_audio = ExtResource("2_edyw3")
-high_audio = ExtResource("3_37ma4")
 
 [node name="IdleAudioPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_edyw3")
