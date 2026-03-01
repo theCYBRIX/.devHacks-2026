@@ -3,10 +3,10 @@ extends CharacterBody2D
 
 @export var local_controlled : bool = false
 
-@export var max_forward_speed : float = 500
+@export var max_forward_speed : float = 400
 @export var max_reverse_speed : float = 250
-@export var max_acceleration  : float = 500
-@export var max_deceleration  : float = 350
+@export var max_acceleration  : float = 200
+@export var max_deceleration  : float = 125
 @export var max_steering : float = deg_to_rad(180)
 @export var min_turning_velocity : float = 15.0
 @export var turning_loss_velocity : float = 125.0
@@ -69,11 +69,8 @@ func _physics_process(delta: float) -> void:
 	
 	var current_forwards := FORWARDS.rotated(rotation)
 	
+	if is_zero_approx(acceleratior_input) or not is_zero_approx(steering_input): velocity *= 0.99
 	velocity += (FORWARDS * max_acceleration * acceleratior_input * delta).rotated(rotation)
-	velocity *= 0.98
-	
-	_speed = velocity.length()
-	_moving_forwards = velocity.dot(FORWARDS.rotated(rotation)) > 0
 	
 	
 	#if _speed > traction_loss_speed:
@@ -92,10 +89,9 @@ func _physics_process(delta: float) -> void:
 	
 	velocity -= velocity.project(FORWARDS.rotated(rotation + PI / 2)) * _traction
 	
-	if _moving_forwards:
-		velocity = velocity.limit_length(max_forward_speed)
-	else:
-		velocity = velocity.limit_length(max_reverse_speed)
+	_moving_forwards = velocity.dot(FORWARDS.rotated(rotation)) > 0
+	velocity = velocity.limit_length(max_forward_speed if _moving_forwards else max_reverse_speed)
+	_speed = velocity.length()
 	
 	
 	#if _speed > 25:
@@ -177,6 +173,7 @@ func set_cop(enabled := true) -> void:
 		modulate = Color.WHITE
 		if is_node_ready(): 
 			sprite_2d.texture = COP_CAR
+			siren_enabled = true  #TODO
 			if siren_enabled:
 				police_siren.play()
 	else:
@@ -188,3 +185,7 @@ func set_cop(enabled := true) -> void:
 
 func is_cop() -> bool:
 	return _is_cop
+
+
+func _on_police_siren_finished() -> void:
+	police_siren.play()
