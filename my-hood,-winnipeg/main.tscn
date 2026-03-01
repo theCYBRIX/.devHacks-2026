@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://ckpuqcsc0cgi6"]
+[gd_scene format=3 uid="uid://ckpuqcsc0cgi6"]
 
 [ext_resource type="Script" uid="uid://0odqd3qna2nc" path="res://game/car_manager.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://t4185fiy3751" path="res://main.gd" id="1_h2yge"]
@@ -6,30 +6,43 @@
 [ext_resource type="PackedScene" uid="uid://cv6sww34pen78" path="res://game/countdown.tscn" id="4_1bvp3"]
 [ext_resource type="AudioStream" uid="uid://vi8xb3qtmybr" path="res://assets/background.mp3" id="5_lquwl"]
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" unique_id=961695094]
 script = ExtResource("1_h2yge")
 
-[node name="CarManager" type="Node" parent="." node_paths=PackedStringArray("car_parent", "map")]
+[node name="CarManager" type="Node" parent="." unique_id=1162285314 node_paths=PackedStringArray("car_parent", "map")]
 script = ExtResource("1_0xm2m")
 car_parent = NodePath("../Cars")
 map = NodePath("../Map")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1331603259]
 offset_left = -81.0
 offset_top = -87.0
 offset_right = 1238.0
 offset_bottom = 733.0
 color = Color(0.309804, 0.52549, 0.317647, 1)
 
-[node name="Map" parent="." instance=ExtResource("2_h2yge")]
+[node name="Map" parent="." unique_id=2102170539 instance=ExtResource("2_h2yge")]
 
-[node name="Cars" type="Node2D" parent="." groups=["Cars"]]
+[node name="Cars" type="Node2D" parent="." unique_id=389897111 groups=["Cars"]]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=351695555]
 
-[node name="Countdown" parent="CanvasLayer" instance=ExtResource("4_1bvp3")]
+[node name="Countdown" parent="CanvasLayer" unique_id=428266544 instance=ExtResource("4_1bvp3")]
 
-[node name="Background" type="AudioStreamPlayer" parent="."]
+[node name="StartLabel" type="Label" parent="CanvasLayer" unique_id=95030946]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 34
+text = "Press Enter to start..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Background" type="AudioStreamPlayer" parent="." unique_id=1186638641]
 stream = ExtResource("5_lquwl")
 
 [connection signal="finished" from="Background" to="." method="_on_background_finished"]

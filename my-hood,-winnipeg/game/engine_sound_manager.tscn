@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bwg1o7qahdexw"]
+
+[ext_resource type="Script" uid="uid://dtefja18y25nf" path="res://game/engine_sound_manager.gd" id="1_kv4ve"]
+
+[node name="EngineSoundManager" type="Node" unique_id=1310648199]
+script = ExtResource("1_kv4ve")
