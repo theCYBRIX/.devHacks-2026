@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cv6sww34pen78"]
+[gd_scene format=3 uid="uid://cv6sww34pen78"]
 
 [ext_resource type="Script" uid="uid://c80r48br3pund" path="res://game/countdown.gd" id="1_r1c6s"]
 [ext_resource type="AudioStream" uid="uid://dv1yxplebqd0" path="res://assets/countdown.wav" id="2_i533s"]
@@ -39,7 +39,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 tracks/3/type = "method"
 tracks/3/imported = false
@@ -109,6 +109,20 @@ tracks/3/keys = {
 "method": &"play"
 }]
 }
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(2.9666667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"go"],
+"method": &"emit_signal"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yxwx8"]
 _data = {
@@ -116,7 +130,8 @@ _data = {
 &"countdown": SubResource("Animation_vl7qg")
 }
 
-[node name="Countdown" type="Control"]
+[node name="Countdown" type="Control" unique_id=492123957]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -125,7 +140,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_r1c6s")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=1050996730]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -137,10 +152,8 @@ text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_yxwx8")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1567978010]
+libraries/ = SubResource("AnimationLibrary_yxwx8")
 
-[node name="Countdown" type="AudioStreamPlayer" parent="."]
+[node name="Countdown" type="AudioStreamPlayer" parent="." unique_id=693037682]
 stream = ExtResource("2_i533s")

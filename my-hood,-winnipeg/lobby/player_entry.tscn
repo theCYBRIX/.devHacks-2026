@@ -1,27 +1,31 @@
-[gd_scene load_steps=2 format=3 uid="uid://cgg8p5yetahvu"]
+[gd_scene format=3 uid="uid://cgg8p5yetahvu"]
 
 [ext_resource type="Script" uid="uid://br4pnp73ywi4x" path="res://lobby/player_entry.gd" id="1_or3bn"]
+[ext_resource type="PackedScene" uid="uid://omvgkvplbhb7" path="res://lobby/color_indicator.tscn" id="2_3hc2k"]
 
-[node name="PlayerEntry" type="Control"]
+[node name="PlayerEntry" type="Control" unique_id=220908517]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -1021.0
+offset_bottom = -608.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_or3bn")
+alias = "Temp"
+color = Color(1, 0.28627452, 1, 1)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1838928422]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
+[node name="ColorIndicator" parent="HBoxContainer" unique_id=1093486373 instance=ExtResource("2_3hc2k")]
 custom_minimum_size = Vector2(64, 40)
 layout_mode = 2
-color = Color(1, 0.286275, 1, 1)
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=1564985524]
 layout_mode = 2
 theme_override_font_sizes/font_size = 23
 text = "Temp"

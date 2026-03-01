@@ -1,8 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://b3tnupk6o6oyb"]
+[gd_scene format=3 uid="uid://b3tnupk6o6oyb"]
 
 [ext_resource type="Script" uid="uid://dc68xty53rbhe" path="res://lobby/lobby.gd" id="1_jtv5c"]
+[ext_resource type="PackedScene" uid="uid://cgg8p5yetahvu" path="res://lobby/player_entry.tscn" id="2_mnguq"]
 
-[node name="Lobby" type="Control"]
+[node name="Lobby" type="Control" unique_id=1821948730]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_jtv5c")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1207926319]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,5 +20,187 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VFlowContainer" type="VFlowContainer" parent="MarginContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer" unique_id=844798906]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/MarginContainer2" unique_id=232383540]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer2/PanelContainer" unique_id=2107960857]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer" unique_id=1064515606]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PlayerList" type="VFlowContainer" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer" unique_id=313138274]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 10
+
+[node name="PlayerEntry" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=619174977 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry2" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=220908517 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry3" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=819902133 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry4" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=706037850 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry5" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=223577437 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry6" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=2067332240 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry7" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=1147372373 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry8" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=899681310 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry9" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=93405498 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry10" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=1006854577 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry11" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=1690153504 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry12" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=993301959 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry13" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=58201857 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry14" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=54416269 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry15" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=43792064 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry16" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=2127629 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+alias = "Testing for real now, like actually"
+character_limit = 18
+
+[node name="PlayerEntry17" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=44050239 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry18" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=1336061450 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry19" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=340538449 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry20" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=1558952764 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry21" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=2063750293 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry22" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=918931727 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry23" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=52899959 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry24" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=1928851727 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry25" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=837318351 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry26" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=806468312 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry27" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=351254645 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry28" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=1734309970 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry29" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=346937186 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry30" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=680781782 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry31" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=1032732609 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry32" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=127007186 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry33" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=706490951 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry34" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=1491077005 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry35" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=173264436 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry36" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=351377091 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry37" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=2002195323 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry38" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=108305810 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="PlayerEntry39" parent="HBoxContainer/MarginContainer2/PanelContainer/MarginContainer/ScrollContainer/PlayerList" unique_id=1609336222 instance=ExtResource("2_mnguq")]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer" unique_id=632507504]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MarginContainer" unique_id=380977405]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/MarginContainer/VBoxContainer" unique_id=495521923]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/PanelContainer" unique_id=151848356]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer" unique_id=376169853]
+layout_mode = 2
+text = "Player 1: Hello
+Player 7: eyyyyyyyy
+Player 5: ya'll gonna lose
+Player 2: Yeah, sure bud"
+fit_content = true
+autowrap_mode = 0
+
+[node name="StartButton" type="Button" parent="HBoxContainer/MarginContainer/VBoxContainer" unique_id=1936688082]
+layout_mode = 2
+size_flags_vertical = 10
+text = "Start"
+
+[connection signal="pressed" from="HBoxContainer/MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]

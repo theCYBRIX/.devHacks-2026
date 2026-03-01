@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://omvgkvplbhb7"]
+
+[ext_resource type="Script" uid="uid://78g3cfl4ts2w" path="res://lobby/color_indicator.gd" id="1_7abct"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7abct"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="ColorIndicator" type="Control" unique_id=1093486373]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7abct")
+style_box = SubResource("StyleBoxFlat_7abct")

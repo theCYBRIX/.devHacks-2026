@@ -32,6 +32,14 @@ window/stretch/mode="canvas_items"
 
 project/assembly_name="My Hood- Winnipeg"
 
+[file_customization]
+
+folder_colors={
+"res://assets/": "purple",
+"res://globals/": "red",
+"res://scenes/": "pink"
+}
+
 [global_group]
 
 Cars="All car instances"

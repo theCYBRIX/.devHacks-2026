@@ -1,3 +1,4 @@
+class_name CarManager
 extends Node
 
 @export var car_parent : Node
@@ -6,6 +7,7 @@ extends Node
 
 const CAR = preload("res://game/car.tscn")
 
+var block_inputs : bool = false : set = set_block_inputs
 var _player_cars : Dictionary[String, Car] = {}
 var _spawn_locations : Array[Marker2D]
 
@@ -16,6 +18,10 @@ func _ready() -> void:
 	PlayerManager.player_input.connect(_on_player_input)
 	
 	_spawn_locations = await map.get_spawn_points()
+	
+	for player in PlayerManager.get_player_aliases():
+		if not _player_cars.has(player):
+			_spawn_player(player, PlayerManager.get_player_number(player))
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -24,11 +30,12 @@ func _process(delta: float) -> void:
 
 
 func set_block_inputs(enabled : bool) -> void:
-	get_tree().call_group("Cars", "set_process", enabled)
+	block_inputs = enabled
 
 
 func _on_player_input(alias : String, input : Dictionary) -> void:
 	#print(alias + ": " + JSON.stringify(input))
+	if block_inputs: return
 	var car : Car = _player_cars[alias]
 	if not car: return
 	var prev_acc_inpt = car.acceleratior_input
@@ -37,28 +44,28 @@ func _on_player_input(alias : String, input : Dictionary) -> void:
 	car.handbrake_pressed = (prev_acc_inpt > 0 and car.acceleratior_input < 0)
 
 
-func _on_player_connected(alias : String, _id : int) -> void:
+func _on_player_connected(alias : String, player_num : int) -> void:
+	_spawn_player(alias, player_num)
+
+
+func _spawn_player(alias : String, player_num : int) -> Car:
 	var car : Car = CAR.instantiate()
-	car.set_physics_process(false)
-	car.set_process(false)
 	car.player_alias = alias
 	car.player_color = PlayerManager.get_player_color(alias)
-	var player_number = PlayerManager.get_player_number(alias)
-	if player_number == 1: car.set_cop()
+	if player_num == 1: car.set_cop()
 	_player_cars[alias] = car
 	car_parent.add_child(car)
 	car.owner = car_parent
 	
-	var spawn := _spawn_locations[player_number - 1]
+	var spawn := _spawn_locations[player_num - 1]
 	
 	car.position = spawn.position
 	car.rotation = spawn.rotation
 	car.velocity = Vector2.ZERO
 	#car.set_process(false)
-	car.set_physics_process(true)
-	car.set_process(true)
 	
-	print(alias + ": " + str(_id) + " -> spawned")
+	print("%s (%d) -> spawned" % [alias, player_num])
+	return car
 
 
 func _on_player_disconnected(alias : String, _id : int) -> void:
