@@ -1,9 +1,10 @@
 @tool
+class_name EngineSoundManager
 extends Node
 
 
-@export var car : Car
-@export var engine_audio: AudioStream : set = set_engine_audio
+@export var car : Car : set = set_car
+@export var engine_audio_player: AudioStreamPlayer : set = set_engine_audio_player
 @export var max_pitch : float = 2.25
 @export var min_pitch : float = 0.60
 
@@ -27,10 +28,6 @@ extends Node
 ] : set = set_max_speeds
 
 
-@onready var engine_audio_player: AudioStreamPlayer = $HighAudioPlayer
-@onready var audio_transitioner: AnimationPlayer = $AudioTransitioner
-
-
 var rpm = idle_rpm
 var _gear_speeds : Array[GearSpec] = [ GearSpec.new(idle_rpm, max_rpm) ]
 
@@ -48,14 +45,7 @@ class GearSpec:
 
 
 func _ready() -> void:
-	if engine_audio: engine_audio_player.stream = engine_audio
-	if car:
-		_update_gear_speeds()
-	else:
-		set_process(false)
-	
-	if Engine.is_editor_hint():
-		set_process(false)
+	_check_set_process_enabled()
 
 
 func _process(delta: float) -> void:
@@ -106,7 +96,7 @@ func _process(delta: float) -> void:
 		
 		if car._traction < car.max_traction and not is_zero_approx(car.acceleratior_input):
 			rpm_fraction = lerpf(rpm_fraction, abs(car.acceleratior_input), inverse_lerp(car.min_traction, car.max_traction, 1 - car._traction))
-			#ignore_climb_rate = false
+			ignore_climb_rate = false
 		
 		required_rpm = lerpf(idle_rpm, max_rpm, rpm_fraction)
 		
@@ -119,10 +109,24 @@ func _process(delta: float) -> void:
 	engine_audio_player.pitch_scale = lerpf(min_pitch, max_pitch, inverse_lerp(idle_rpm, max_rpm, rpm))
 
 
-func set_engine_audio(stream : AudioStream) -> void:
-	engine_audio = stream
-	if is_node_ready():
-		engine_audio_player.stream = engine_audio
+func set_car(node : Car) -> void:
+	car = node
+	if is_node_ready(): _update_gear_speeds()
+	_check_set_process_enabled()
+
+
+func set_engine_audio_player(stream : AudioStreamPlayer) -> void:
+	engine_audio_player = stream
+	_check_set_process_enabled()
+
+
+func _check_set_process_enabled() -> void:
+	if engine_audio_player and car and not Engine.is_editor_hint():
+		set_process(true)
+	else:
+		set_process(false)
+	
+
 
 func set_num_gears(count : int) -> void:
 	if count == num_gears: return

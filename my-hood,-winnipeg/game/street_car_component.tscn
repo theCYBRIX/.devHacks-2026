@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bvp0jrhjd7ric"]
+
+[ext_resource type="Script" uid="uid://bbr0j62mfe48a" path="res://game/street_car_component.gd" id="1_jtvpb"]
+[ext_resource type="PackedScene" uid="uid://bwg1o7qahdexw" path="res://game/engine_sound_manager.tscn" id="2_n5ikc"]
+[ext_resource type="AudioStream" uid="uid://db7ualoaea37g" path="res://assets/mazda.mp3" id="3_jtvpb"]
+
+[node name="StreetCarComponent" type="Node2D" unique_id=1173462148]
+script = ExtResource("1_jtvpb")
+
+[node name="EngineSoundManager" parent="." unique_id=2127789784 node_paths=PackedStringArray("engine_audio_player") instance=ExtResource("2_n5ikc")]
+engine_audio_player = NodePath("../Mazda")
+max_pitch = 1.1
+min_pitch = 0.3
+
+[node name="Mazda" type="AudioStreamPlayer" parent="." unique_id=496374575]
+stream = ExtResource("3_jtvpb")
+volume_db = -4.0

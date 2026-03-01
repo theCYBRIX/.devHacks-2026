@@ -22,20 +22,21 @@ extends CharacterBody2D
 @export var player_alias : String = ""
 @export var player_color : Color = Color.WHITE : set = set_color
 
-@onready var sprite_2d: Sprite2D = $Sprite2D
-@onready var police_siren: AudioStreamPlayer = $PoliceSiren
+@onready var sprite: Sprite2D = $Sprite
 @onready var car_crashed: AudioStreamPlayer = $CarCrashed
 @onready var wall_crashed: AudioStreamPlayer = $WallCrashed
 @onready var car_tagged: AudioStreamPlayer = $CarTagged
+@onready var car_type_component: Node2D = $StreetCarComponent
 
-const COP_CAR = preload("res://assets/cop_car.png")
-const STREET_CAR = preload("res://assets/street_car.png")
+const COP_SPRITE = preload("res://assets/cop_car.png")
+const STREET_SPRITE = preload("res://assets/street_car.png")
+
+const COP_CAR_COMPONENT = preload("uid://b33ihb1f0gpud")
+const STREET_CAR_COMPONENT = preload("uid://bvp0jrhjd7ric")
+
 
 const FORWARDS := Vector2.UP
 
-
-var _max_fwd_spd := Vector2.UP * max_forward_speed
-var _max_rvrs_spd := Vector2.UP * max_reverse_speed
 
 var _speed : float = 0.0
 var _traction : float = 0.8
@@ -57,7 +58,10 @@ func _ready() -> void:
 	instance_id = instance_counter
 	instance_counter += 1
 	
-	sprite_2d.texture = COP_CAR if is_cop() else STREET_CAR
+	if is_cop():
+		_switch_components_to_cop()
+	else:
+		_switch_components_to_street()
 
 
 func _physics_process(delta: float) -> void:
@@ -70,7 +74,7 @@ func _physics_process(delta: float) -> void:
 	var current_forwards := FORWARDS.rotated(rotation)
 	
 	if is_zero_approx(acceleratior_input) or not is_zero_approx(steering_input): velocity *= 0.99
-	velocity += (FORWARDS * max_acceleration * acceleratior_input * delta).rotated(rotation)
+	velocity += current_forwards * max_acceleration * acceleratior_input * delta
 	
 	
 	#if _speed > traction_loss_speed:
@@ -89,7 +93,7 @@ func _physics_process(delta: float) -> void:
 	
 	velocity -= velocity.project(FORWARDS.rotated(rotation + PI / 2)) * _traction
 	
-	_moving_forwards = velocity.dot(FORWARDS.rotated(rotation)) > 0
+	_moving_forwards = velocity.dot(current_forwards) > 0
 	velocity = velocity.limit_length(max_forward_speed if _moving_forwards else max_reverse_speed)
 	_speed = velocity.length()
 	
@@ -172,14 +176,10 @@ func set_cop(enabled := true) -> void:
 	if enabled:
 		modulate = Color.WHITE
 		if is_node_ready(): 
-			sprite_2d.texture = COP_CAR
-			siren_enabled = true  #TODO
-			if siren_enabled:
-				police_siren.play()
+			_switch_components_to_cop()
 	else:
 		if is_node_ready():
-			sprite_2d.texture = STREET_CAR
-			police_siren.stop()
+			_switch_components_to_street()
 		modulate = player_color
 
 
@@ -187,5 +187,22 @@ func is_cop() -> bool:
 	return _is_cop
 
 
-func _on_police_siren_finished() -> void:
-	police_siren.play()
+func _switch_components_to_cop() -> Node:
+	sprite.texture = COP_SPRITE
+	return _switch_type_component(COP_CAR_COMPONENT)
+
+
+func _switch_components_to_street() -> Node:
+	sprite.texture = STREET_SPRITE
+	return _switch_type_component(STREET_CAR_COMPONENT)
+
+
+func _switch_type_component(to : PackedScene) -> Node:
+	if not is_node_ready():
+		printerr("Unable to switch type: Node is not ready.")
+		return
+	if car_type_component and is_instance_valid(car_type_component): car_type_component.queue_free()
+	car_type_component = to.instantiate()
+	add_child(car_type_component, false, Node.INTERNAL_MODE_FRONT)
+	car_type_component.owner = self
+	return car_type_component

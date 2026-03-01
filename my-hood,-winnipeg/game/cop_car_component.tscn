@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://b33ihb1f0gpud"]
+
+[ext_resource type="Script" uid="uid://ddrti4ul8rt1p" path="res://game/cop_car_component.gd" id="1_e8my5"]
+[ext_resource type="AudioStream" uid="uid://tp3iehtlspoc" path="res://assets/police-car-horn.wav" id="2_j57tr"]
+[ext_resource type="AudioStream" uid="uid://dmhes2r1of2kc" path="res://assets/police-siren-fast.wav" id="3_e8my5"]
+[ext_resource type="AudioStream" uid="uid://dsktkwmamx1w6" path="res://assets/police-siren-long.wav" id="4_dk4hh"]
+[ext_resource type="PackedScene" uid="uid://bwg1o7qahdexw" path="res://game/engine_sound_manager.tscn" id="5_e8my5"]
+[ext_resource type="AudioStream" uid="uid://dej0ea01am6rp" path="res://assets/Engine-2.wav" id="6_e8my5"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_xyj2s"]
+playback_mode = 1
+streams_count = 3
+stream_0/stream = ExtResource("2_j57tr")
+stream_1/stream = ExtResource("3_e8my5")
+stream_2/stream = ExtResource("4_dk4hh")
+
+[node name="CopCarComponent" type="Node2D" unique_id=66012984]
+script = ExtResource("1_e8my5")
+
+[node name="EngineSoundManager" parent="." unique_id=510317865 node_paths=PackedStringArray("engine_audio_player") instance=ExtResource("5_e8my5")]
+engine_audio_player = NodePath("../Engine")
+
+[node name="Siren" type="AudioStreamPlayer" parent="." unique_id=550280211]
+stream = SubResource("AudioStreamRandomizer_xyj2s")
+
+[node name="Engine" type="AudioStreamPlayer" parent="." unique_id=1355387349]
+stream = ExtResource("6_e8my5")
+
+[connection signal="finished" from="Siren" to="." method="_on_siren_finished"]
