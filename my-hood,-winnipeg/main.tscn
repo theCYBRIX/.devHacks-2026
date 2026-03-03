@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://ckpuqcsc0cgi6"]
 
-[ext_resource type="Script" uid="uid://0odqd3qna2nc" path="res://game/car_manager.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://0odqd3qna2nc" path="res://scenes/game/car_manager.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://t4185fiy3751" path="res://main.gd" id="1_h2yge"]
-[ext_resource type="PackedScene" uid="uid://cl432sh8dd1gy" path="res://game/map.tscn" id="2_h2yge"]
-[ext_resource type="PackedScene" uid="uid://cv6sww34pen78" path="res://game/countdown.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://cl432sh8dd1gy" path="res://scenes/game/map.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://cv6sww34pen78" path="res://scenes/game/countdown.tscn" id="4_1bvp3"]
 [ext_resource type="AudioStream" uid="uid://vi8xb3qtmybr" path="res://assets/background.mp3" id="5_lquwl"]
 
 [node name="Main" type="Node" unique_id=961695094]

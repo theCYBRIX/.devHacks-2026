@@ -1,5 +1,6 @@
 extends Control
 
+## Called/emitted from within the AnimationPlayer
 signal go
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer

@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://2bjklh70l1ic"]
 
-[ext_resource type="Script" uid="uid://b4a5wf7yhcee3" path="res://game/car.gd" id="1_ij4eu"]
+[ext_resource type="Script" uid="uid://b4a5wf7yhcee3" path="res://scenes/game/car.gd" id="1_ij4eu"]
 [ext_resource type="Texture2D" uid="uid://dwljqec72tpx8" path="res://assets/street_car.png" id="2_ij4eu"]
-[ext_resource type="PackedScene" uid="uid://bvp0jrhjd7ric" path="res://game/street_car_component.tscn" id="2_o8wg6"]
+[ext_resource type="PackedScene" uid="uid://bvp0jrhjd7ric" path="res://scenes/game/street_car_component.tscn" id="2_o8wg6"]
 [ext_resource type="AudioStream" uid="uid://ebya6ysrq5m4" path="res://assets/car crash bad .wav" id="5_2yqmx"]
 [ext_resource type="AudioStream" uid="uid://7pcppjkmh71v" path="res://assets/Car crash- walls .wav" id="8_4xjf4"]
 [ext_resource type="AudioStream" uid="uid://cuhrfwlhvlga8" path="res://assets/hit noise 1.mp3" id="9_ox7hs"]

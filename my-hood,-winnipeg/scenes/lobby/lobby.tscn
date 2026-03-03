@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b3tnupk6o6oyb"]
 
-[ext_resource type="Script" uid="uid://dc68xty53rbhe" path="res://lobby/lobby.gd" id="1_jtv5c"]
-[ext_resource type="PackedScene" uid="uid://cgg8p5yetahvu" path="res://lobby/player_entry.tscn" id="2_mnguq"]
+[ext_resource type="Script" uid="uid://dc68xty53rbhe" path="res://scenes/lobby/lobby.gd" id="1_jtv5c"]
+[ext_resource type="PackedScene" uid="uid://cgg8p5yetahvu" path="res://scenes/lobby/player_entry.tscn" id="2_mnguq"]
 
 [node name="Lobby" type="Control" unique_id=1821948730]
 layout_mode = 3

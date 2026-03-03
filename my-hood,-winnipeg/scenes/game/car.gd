@@ -20,7 +20,7 @@ extends CharacterBody2D
 @export var  _is_cop : bool = false : set = set_cop
 
 @export var player_alias : String = ""
-@export var player_color : Color = Color.WHITE : set = set_color
+@export var color : Color = Color.WHITE : set = set_color
 
 @onready var sprite: Sprite2D = $Sprite
 @onready var car_crashed: AudioStreamPlayer = $CarCrashed
@@ -166,7 +166,7 @@ func _physics_process(delta: float) -> void:
 
 
 func set_color(col : Color) -> void:
-	player_color = col
+	color = col
 	if not is_cop():
 		modulate = col
 
@@ -180,7 +180,7 @@ func set_cop(enabled := true) -> void:
 	else:
 		if is_node_ready():
 			_switch_components_to_street()
-		modulate = player_color
+		modulate = color
 
 
 func is_cop() -> bool:
