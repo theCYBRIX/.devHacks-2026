@@ -4,6 +4,7 @@ extends Control
 signal list_updated
 
 
+const GAME_SCREEN = preload("uid://ckpuqcsc0cgi6")
 const PLAYER_ENTRY = preload("uid://cgg8p5yetahvu")
 
 
@@ -87,4 +88,4 @@ func _create_player_entry(player : PlayerProps) -> PlayerEntry:
 
 
 func _on_start_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://main.tscn")
+	get_tree().change_scene_to_packed(GAME_SCREEN)
