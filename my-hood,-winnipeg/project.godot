@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="My Hood, Winnipeg"
-run/main_scene="uid://ckpuqcsc0cgi6"
+run/main_scene="uid://cxby7xg07u1q0"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 

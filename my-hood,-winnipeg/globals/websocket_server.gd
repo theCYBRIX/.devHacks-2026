@@ -16,9 +16,9 @@ var _available_ids : Array[int] = []
 var _id_counter : int = 0
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	start()
+	if not is_active():
+		set_process(false)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -68,6 +68,7 @@ func start() -> void:
 	
 	_tcp_server = TCPServer.new()
 	_tcp_server.listen(SERVER_PORT)
+	set_process(true)
 	print("Server started on port %d" % SERVER_PORT)
 
 
@@ -112,4 +113,8 @@ func get_peer_count() -> int:
 
 
 func is_active() -> bool:
-	return _tcp_server.is_listening() and not _peers.is_empty()
+	return (
+		_tcp_server and
+		is_instance_valid(_tcp_server) and
+		_tcp_server.is_listening()
+	) or not _peers.is_empty()

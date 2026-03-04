@@ -1,16 +1,16 @@
 [gd_scene format=3 uid="uid://ckpuqcsc0cgi6"]
 
-[ext_resource type="Script" uid="uid://0odqd3qna2nc" path="res://scenes/game/car_manager.gd" id="1_0xm2m"]
-[ext_resource type="Script" uid="uid://t4185fiy3751" path="res://main.gd" id="1_h2yge"]
-[ext_resource type="PackedScene" uid="uid://cl432sh8dd1gy" path="res://scenes/game/map.tscn" id="2_h2yge"]
-[ext_resource type="PackedScene" uid="uid://cv6sww34pen78" path="res://scenes/game/countdown.tscn" id="4_1bvp3"]
-[ext_resource type="AudioStream" uid="uid://vi8xb3qtmybr" path="res://assets/background.mp3" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://t4185fiy3751" path="res://scenes/game/game_screen.gd" id="1_j7yda"]
+[ext_resource type="Script" uid="uid://0odqd3qna2nc" path="res://scenes/game/car_manager.gd" id="2_lxtpa"]
+[ext_resource type="PackedScene" uid="uid://cl432sh8dd1gy" path="res://scenes/game/map.tscn" id="3_3vj30"]
+[ext_resource type="PackedScene" uid="uid://cv6sww34pen78" path="res://scenes/game/countdown.tscn" id="4_6mti6"]
+[ext_resource type="AudioStream" uid="uid://vi8xb3qtmybr" path="res://assets/background.mp3" id="5_oymjd"]
 
-[node name="Main" type="Node" unique_id=961695094]
-script = ExtResource("1_h2yge")
+[node name="GameScreen" type="Node" unique_id=961695094]
+script = ExtResource("1_j7yda")
 
 [node name="CarManager" type="Node" parent="." unique_id=1162285314 node_paths=PackedStringArray("car_parent", "map")]
-script = ExtResource("1_0xm2m")
+script = ExtResource("2_lxtpa")
 car_parent = NodePath("../Cars")
 map = NodePath("../Map")
 
@@ -21,13 +21,13 @@ offset_right = 1238.0
 offset_bottom = 733.0
 color = Color(0.309804, 0.52549, 0.317647, 1)
 
-[node name="Map" parent="." unique_id=2102170539 instance=ExtResource("2_h2yge")]
+[node name="Map" parent="." unique_id=2102170539 instance=ExtResource("3_3vj30")]
 
 [node name="Cars" type="Node2D" parent="." unique_id=389897111 groups=["Cars"]]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=351695555]
 
-[node name="Countdown" parent="CanvasLayer" unique_id=428266544 instance=ExtResource("4_1bvp3")]
+[node name="Countdown" parent="CanvasLayer" unique_id=428266544 instance=ExtResource("4_6mti6")]
 
 [node name="StartLabel" type="Label" parent="CanvasLayer" unique_id=95030946]
 anchors_preset = 15
@@ -43,6 +43,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Background" type="AudioStreamPlayer" parent="." unique_id=1186638641]
-stream = ExtResource("5_lquwl")
+stream = ExtResource("5_oymjd")
 
 [connection signal="finished" from="Background" to="." method="_on_background_finished"]
